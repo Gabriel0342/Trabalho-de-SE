@@ -10,4 +10,4 @@ const frutaSchema = new Schema(
 
 frutaSchema.index({ nome: 1 }, { unique: true });
 
-module.exports = model('Fruta', frutaSchema, 'Fruta');
+module.exports = model('Fruta', frutaSchema);
