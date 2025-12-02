@@ -1,6 +1,6 @@
 # Equilibria - Smart Scale Balance
 
-PT-PT
+PT - PT
 Este projeto foi desenvolvido no âmbito da unidade curricular de Sistemas Embebidos e consiste na criação de uma balança inteligente capaz de identificar automaticamente o produto colocado na sua superfície, sem necessidade de códigos de barras ou introdução manual de dados.
 
 A solução integra um sistema de visão por computador baseado no modelo YOLO para detecção e classificação de objetos (por exemplo, frutas). Paralelamente, são utilizadas células de carga para medir o peso do produto com precisão. Todo o processamento é realizado por um Raspberry Pi 5, responsável por executar o modelo de IA e gerir a lógica do sistema.
@@ -11,7 +11,7 @@ Os resultados são apresentados em tempo real num CYD (Cheap Yellow Display), on
 
 Este projeto demonstra a integração de IA, sistemas embebidos e software backend para criar um dispositivo autónomo, intuitivo e funcional.
 
-//------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+---
 
 EN - UK
 This project was developed for the Embedded Systems course and consists of building a smart scale capable of automatically identifying the product placed on its platform, without requiring barcodes or manual input.
