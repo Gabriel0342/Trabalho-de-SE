@@ -13,7 +13,7 @@ Este projeto demonstra a integração de IA, sistemas embebidos e software backe
 
 //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 
-ES-ES
+EN - UK
 This project was developed for the Embedded Systems course and consists of building a smart scale capable of automatically identifying the product placed on its platform, without requiring barcodes or manual input.
 
 The system uses a computer vision model based on YOLO for object detection and classification (e.g., fruits). In parallel, load cells are used to accurately measure the product’s weight. All processing is handled by a Raspberry Pi 5, which runs the AI model and manages the system logic.
