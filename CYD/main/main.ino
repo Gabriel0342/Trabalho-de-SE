@@ -27,10 +27,10 @@ uint32_t draw_buf[DRAW_BUF_SIZE / 4];
 
 //------------------------------------
 
-#define HX711_DOUT 27
-#define HX711_SCK 22
+#define HX711_DOUT 22
+#define HX711_SCK 27
 
-float escala = -7050;
+float escala = -234162;
 Balanca balanca(HX711_DOUT, HX711_SCK, escala);
 
 //------------------------------------
@@ -62,6 +62,10 @@ void setup() {
     Serial.begin(115200);
     delay(500); 
 
+    //----------- BALANCA ------------
+    
+    balanca.init();
+
     //------------- LVGL -------------
 
     lv_init();
@@ -79,11 +83,6 @@ void setup() {
     lv_indev_set_read_cb(indev, touchscreen_read);
 
     gui_init();
-    
-    //----------- BALANCA ------------
-    
-    balanca.init();
-
 }
 
 //------------------------------------
@@ -94,14 +93,13 @@ void loop() {
 
     //teste
     static unsigned long last_read = 0;
-    if (millis() - last_read > 200) {
+    if (millis() - last_read > 80) {
         last_read = millis();
 
         float peso = balanca.getPeso(10);
         Serial.print("Peso: ");
         Serial.print(peso, 2);
         Serial.println(" kg");
-
         gui_updatePeso(peso);
     }
 
