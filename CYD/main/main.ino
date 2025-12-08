@@ -88,15 +88,19 @@ void setup() {
 //------------------------------------
 
 void loop() {
-    lv_task_handler();
-    lv_tick_inc(5);
+    static uint32_t last_tick = 0;
+    uint32_t now = millis();
+
+    lv_tick_inc(now - last_tick);
+    last_tick = now;
+    lv_task_handler();    
 
     //teste
     static unsigned long last_read = 0;
     if (millis() - last_read > 80) {
         last_read = millis();
 
-        float peso = balanca.getPeso(10);
+        float peso = balanca.getPeso(1);
         Serial.print("Peso: ");
         Serial.print(peso, 2);
         Serial.println(" kg");
