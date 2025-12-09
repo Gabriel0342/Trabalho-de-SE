@@ -19,9 +19,26 @@ const Home = () => {
 
   const editarFruta = () => {
     try {
-      Swal.fire();
+      Swal.fire({
+        html:`
+          <div class='flex flex-col justify-center items-center gap-3'>
+            INFORMAÇOES FRUTA
+            <div class='flex items-center gap-3'>
+              <label>Preço: </label>
+              <input placeholder='0,00€' class='border-2 rounded-md text-center'/>
+            </div>
+          </div>
+        `,
+        showCancelButton: true,
+        confirmButtonText: 'Guardar',
+        cancelButtonText: 'Cancelar'
+      });
     } catch (error) {
-
+      Swal.fire({
+        title:'Erro ao abrir aba de edição',
+        icon: 'error',
+        confirmButtonText: 'OK'
+      })
     }
   }
 
@@ -46,7 +63,7 @@ const Home = () => {
         {fruits.map((fruta, index) => (
           <div className="bg-white-900 rounded-xl shadow-lg p-4 border grid grid-cols-3 border-black/10">
             <span className="text-xl font-semibold text-black text-start">{fruta.nome}</span>
-            <span className="text-xl font-semibold text-black text-center">{fruta.preço} &euro;</span>
+            <span className="text-xl font-semibold text-black text-center">{fruta.preco} &euro;</span>
             <button className="text-blue-600 flex items-center justify-end gap-2 w-fit ml-auto" onClick={editarFruta}>
               <FiEdit3 />
               Editar

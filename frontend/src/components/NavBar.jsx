@@ -1,4 +1,4 @@
-import fruta from "../assets/fruta.png" 
+import logo from "../assets/logo.png" 
 import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
@@ -27,14 +27,11 @@ export default function NavBar() {
               <div className="flex items-center">
                 <a href="/" className="flex items-center gap-2">
                   <img
-                    src={fruta}
+                    src={logo}
                     alt="logo"
-                    className="h-11 w-12 block object-contain"
-
+                    className="h-20 block object-contain"
                   />
-                  <span className="text-black font-semibold">Balance Countinuent</span>
                 </a>
-
                 <div className="hidden md:block ml-8">
                   <div className="flex items-baseline space-x-2">
                     {navigation.map((item) => (
