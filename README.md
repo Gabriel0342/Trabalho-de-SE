@@ -13,7 +13,7 @@ Os resultados são apresentados em tempo real num CYD (Cheap Yellow Display), on
 
 Este projeto demonstra a integração de IA, sistemas embebidos e software backend para criar um dispositivo autónomo, intuitivo e funcional.
 
-<p align="center"><img src="./logos-equilibria/Trabalho de Conclusão de Curso.png" alt="Logo LearningQuest" width="400"> </p>
+---
 
 EN - UK<br>
 This project was developed for the Embedded Systems course and consists of building a smart scale capable of automatically identifying the product placed on its platform, without requiring barcodes or manual input.
