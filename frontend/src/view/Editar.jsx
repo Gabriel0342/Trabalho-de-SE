@@ -1,7 +1,7 @@
 import React from "react";
 import NavBar from "../components/NavBar";
 
-export default function Editar() {
+const Editar = () => {
   return (
     <div className="min-h-screen bg-white text-black">
       <NavBar />
@@ -37,3 +37,5 @@ export default function Editar() {
     </div>
   );
 }
+
+export default Editar;
