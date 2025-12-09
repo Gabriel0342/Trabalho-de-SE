@@ -1,8 +1,6 @@
 # Equilibria - Smart Scale Balance
 
-<p align="center"> <img src="./logos-equilibria/Trabalho de Conclusão de Curso.png" alt="Logo LearningQuest" width="250"> </p>
-
-<p align="center"> <img src="./logos-equilibria/equilibria_logo.png" alt="Logo LearningQuest" width="250"> </p>
+<p align="center"> <img src="./logos-equilibria/equilibria_logo.png" alt="Logo LearningQuest" width="350"> </p>
 
 PT - PT<br>
 Este projeto foi desenvolvido no âmbito da unidade curricular de Sistemas Embebidos e consiste na criação de uma balança inteligente capaz de identificar automaticamente o produto colocado na sua superfície, sem necessidade de códigos de barras ou introdução manual de dados.
