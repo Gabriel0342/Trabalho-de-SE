@@ -2,12 +2,25 @@ const mongoose = require('mongoose');
 const Fruta = require('../models/fruta');
 
 exports.list = async (req, res) => {
-  const frutas = await Fruta.find().sort({ createdAt: -1 }).lean();
-  res.json(frutas);
+  try {
+    const searchTerm = req.body.search || req.query.search;
+
+    const filtro = {};
+    console.log(searchTerm);
+
+    if (searchTerm) {
+      filtro.nome = { $regex: searchTerm, $options: 'i' };
+    }
+
+    const frutas = await Fruta.find(filtro).sort({ createdAt: -1 }).lean();
+    res.json(frutas);
+  } catch (err) {
+    res.status(500).json({ erro: "Erro ao conectar: " + err });
+  }
 };
 
-exports.get = async (req, res) => { 
-  const nome = req.params.nome || req.query.nome; 
+exports.get = async (req, res) => {
+  const nome = req.params.nome || req.query.nome;
   if (!nome) { return res.status(400).json({ erro: "Nome da fruta não especificado" }); }
 
   try {
@@ -38,20 +51,20 @@ exports.create = async (req, res) => {
     }
   } catch (err) {
     res.status(500).json({ mensagem: "Erro ao criar fruta.", erro: err.toString() });
-  } 
+  }
 };
 
-exports.update = async (req, res) => { 
-  const fruta = req.body.nome || req.params.nome || req.query.nome; 
+exports.update = async (req, res) => {
+  const id = req.params.id;
   const precoAlterado = req.body.preco || req.query.preco;
 
-  if (!fruta || !precoAlterado) {
+  if (!id || !precoAlterado) {
     return res.status(400).json({ erro: "Informe o nome da fruta e o novo preço" });
   }
 
   try {
     const resultado = await Fruta.updateOne(
-      { nome: fruta },
+      { _id: id },
       { $set: { preco: precoAlterado } }
     );
 
@@ -59,7 +72,7 @@ exports.update = async (req, res) => {
       return res.status(404).json({ erro: "Fruta não encontrada" });
     }
 
-    res.json({ fruta, preco: precoAlterado, atualizado: true });
+    res.json({ id, preco: precoAlterado, atualizado: true });
   } catch (err) {
     res.status(500).json({ erro: "Erro ao conectar: " + err });
   }
