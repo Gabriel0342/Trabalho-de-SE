@@ -95,7 +95,6 @@ void loop() {
     last_tick = now;
     lv_task_handler();    
 
-    //teste
     static unsigned long last_read = 0;
     if (millis() - last_read > 80) {
         last_read = millis();
