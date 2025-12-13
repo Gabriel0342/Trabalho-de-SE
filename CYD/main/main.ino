@@ -93,17 +93,26 @@ void loop() {
 
     lv_tick_inc(now - last_tick);
     last_tick = now;
-    lv_task_handler();    
+    lv_task_handler();
+
+    static float peso_anterior = 0.0;
 
     static unsigned long last_read = 0;
     if (millis() - last_read > 80) {
         last_read = millis();
 
-        float peso = balanca.getPeso(1);
-        Serial.print("Peso: ");
-        Serial.print(peso, 2);
-        Serial.println(" kg");
-        gui_updatePeso(peso);
+        float peso_atual = balanca.getPeso(1);
+        
+        if (peso_atual != peso_anterior) {
+          Serial.println(peso, 2);  
+          peso_anterior = peso_atual;
+        }     
+
+        gui_updatePeso(peso_atual);
+    }
+
+    if (Serial.available()) {
+
     }
 
     delay(5);
