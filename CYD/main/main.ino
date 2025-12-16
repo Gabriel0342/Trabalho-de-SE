@@ -58,62 +58,105 @@ void touchscreen_read(lv_indev_t* indev, lv_indev_data_t* data) {
 
 //------------------------------------
 
+String buffer = "";
+
+void processarLinha(const String& linha) {
+  int idx = linha.indexOf(',');
+  if (idx < 0) {
+    Serial.println("ERRO: formato invalido (sem virgula)");
+    return;
+  }
+
+  String nome = linha.substring(0, idx);
+  String precoStr = linha.substring(idx + 1);
+
+  nome.trim();
+  precoStr.trim();
+
+  float preco = precoStr.toFloat(); 
+
+  Serial.print("RECEBIDO -> nome: ");
+  Serial.print(nome);
+  Serial.print(" | preco: ");
+  Serial.println(preco, 2);
+
+  gui_updateFruta(nome.c_str(), preco);
+
+  Serial.println("OK");
+}
+
+//------------------------------------
+
 void setup() {
-    Serial.begin(115200);
-    delay(500); 
+  Serial.begin(115200);
+  delay(500);
 
-    //----------- BALANCA ------------
-    
-    balanca.init();
+  //----------- BALANCA ------------
 
-    //------------- LVGL -------------
+  balanca.init();
 
-    lv_init();
+  //------------- LVGL -------------
 
-    touchscreenSPI.begin(XPT2046_CLK, XPT2046_MISO, XPT2046_MOSI, XPT2046_CS);
-    touchscreen.begin(touchscreenSPI);
-    touchscreen.setRotation(2);
+  lv_init();
 
-    lv_display_t* disp;
-    disp = lv_tft_espi_create(SCREEN_WIDTH, SCREEN_HEIGHT, draw_buf, sizeof(draw_buf));
-    lv_display_set_rotation(disp, LV_DISPLAY_ROTATION_270);
+  touchscreenSPI.begin(XPT2046_CLK, XPT2046_MISO, XPT2046_MOSI, XPT2046_CS);
+  touchscreen.begin(touchscreenSPI);
+  touchscreen.setRotation(2);
 
-    lv_indev_t* indev = lv_indev_create();
-    lv_indev_set_type(indev, LV_INDEV_TYPE_POINTER);
-    lv_indev_set_read_cb(indev, touchscreen_read);
+  lv_display_t* disp;
+  disp = lv_tft_espi_create(SCREEN_WIDTH, SCREEN_HEIGHT, draw_buf, sizeof(draw_buf));
+  lv_display_set_rotation(disp, LV_DISPLAY_ROTATION_270);
 
-    gui_init();
+  lv_indev_t* indev = lv_indev_create();
+  lv_indev_set_type(indev, LV_INDEV_TYPE_POINTER);
+  lv_indev_set_read_cb(indev, touchscreen_read);
+
+  gui_init();
+  gui_updateFruta("", 0);
 }
 
 //------------------------------------
 
 void loop() {
-    static uint32_t last_tick = 0;
-    uint32_t now = millis();
+  static uint32_t last_tick = 0;
+  uint32_t now = millis();
 
-    lv_tick_inc(now - last_tick);
-    last_tick = now;
-    lv_task_handler();
+  lv_tick_inc(now - last_tick);
+  last_tick = now;
+  lv_task_handler();
 
-    static float peso_anterior = 0.0;
+  static float peso_anterior = 0.0;
 
-    static unsigned long last_read = 0;
-    if (millis() - last_read > 80) {
-        last_read = millis();
+  static unsigned long last_read = 0;
+  if (millis() - last_read > 80) {
+    last_read = millis();
 
-        float peso_atual = balanca.getPeso(1);
-        
-        if (peso_atual != peso_anterior) {
-          Serial.println(peso, 2);  
-          peso_anterior = peso_atual;
-        }     
+    float peso_atual = balanca.getPeso(1);
 
-        gui_updatePeso(peso_atual);
+    if (peso_atual > peso_anterior + 0.005 || peso_atual < peso_anterior - 0.005) {
+      Serial.println(peso_atual, 2);
+      peso_anterior = peso_atual;
     }
 
-    if (Serial.available()) {
+    gui_updatePeso(peso_atual);
+  }
 
+  if (Serial.available() > 0) {
+    char c = (char)Serial.read();
+
+    if (c == '\r') {
+      
     }
 
-    delay(5);
+    if (c == '\n') {
+      if (buffer.length() > 0) {
+        processarLinha(buffer);
+        buffer = "";
+      }
+    } else {
+      buffer += c;
+    }
+  }
+
+  delay(5);
 }
